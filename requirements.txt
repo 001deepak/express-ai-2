@@ -1,0 +1,6 @@
+pipecat-ai[sarvam,cartesia,openai]
+fastapi
+uvicorn
+python-dotenv
+websockets
+loguru
