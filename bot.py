@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 from pipecat.pipeline.pipeline import Pipeline
 from pipecat.pipeline.runner import PipelineRunner
 from pipecat.pipeline.task import PipelineTask, PipelineParams
-from pipecat.services.sarvam import SarvamSTTService
+from pipecat.services.sarvam.stt import SarvamSTTService
+from pipecat.services.sarvam.tts import SarvamTTSService
 from pipecat.services.openai import OpenAILLMService
-from pipecat.services.cartesia import CartesiaTTSService
 
 load_dotenv()
 
@@ -20,13 +20,15 @@ async def main():
 
     # 2. Speech-to-Text (Sarvam AI for Indian languages/accents)
     stt = SarvamSTTService(
-        api_key=os.getenv("SARVAM_API_KEY")
+        api_key=os.getenv("SARVAM_API_KEY"),
+        language="hi-IN",
+        model="saaras:v3"
     )
 
-    # 3. Text-to-Speech (Cartesia for ultra-low latency voice)
-    tts = CartesiaTTSService(
-        api_key=os.getenv("CARTESIA_API_KEY"),
-        voice_id="79a125e8-cd45-4c13-8a67-188112f4dd22" # Default natural voice ID
+    # 3. Text-to-Speech (Sarvam AI Bulbul voices)
+    tts = SarvamTTSService(
+        api_key=os.getenv("SARVAM_API_KEY"),
+        model="bulbul:v2"
     )
 
     # 4. Pipeline execution loop
